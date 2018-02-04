@@ -6,7 +6,7 @@ export function logoutRequestAsync() {
     return dispatch => {
         configDefault.auth().signOut()
             .then(() => {
-                browserHistory.replace('/login');
+                browserHistory.replace('/signin');
                 dispatch(logoutSucceed());
             })
             .catch((error) => {

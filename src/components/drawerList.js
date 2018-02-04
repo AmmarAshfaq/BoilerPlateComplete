@@ -43,14 +43,14 @@ class DrawerList extends Component {
     }
     handleToggle = () => this.setState({ open: !this.state.open });
     changeURL = (page) => {
-        console.log(this.props)
+        console.log(browserHistory.push('/'))
     }
     render() {
-        console.log(this.props.currentUser)
+        // console.log(this.props.currentUser, this.props.dataUser)
         return (
             <div>
                 <AppBar
-                    title="boilerplate"
+                    title={this.props.dataUser}
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     onLeftIconButtonClick={this.handleToggle}
                 />
@@ -76,7 +76,8 @@ class DrawerList extends Component {
 
 function mapStateToProps(state) {
     return ({
-        currentUser: state.logoutReducer.currentUser
+        currentUser: state.logoutReducer.currentUser,
+        dataUser: state.signinReducer.currentUser.name
     })
 }
 function mapDispatchToProps(dispatch) {

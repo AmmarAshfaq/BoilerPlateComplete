@@ -64,8 +64,8 @@ class Signin extends Component {
         this.props.closeAlert();
     }
     render() {
-        console.log('Progressing in signin: ', this.props.isProgressing);
-        console.log("Error status :", this.props.isError, this.props.errorText)
+        // console.log('Progressing in signin: ', this.props.isProgressing);
+        // console.log("Error status :", this.props.isError, this.props.errorText)
         return (
             <div>
                 <ErrorAlert handleClose={this.dispatchClose} open={this.props.isError} errorText={this.props.errorText} />

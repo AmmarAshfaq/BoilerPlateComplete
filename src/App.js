@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import RouterNav from './Route';
 import store from './store';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DrawerList from './components/drawerList';
+
 // import Counter from './container/counter';
 
 class App extends Component {
@@ -13,6 +15,7 @@ class App extends Component {
                 <MuiThemeProvider>
                     <div>
                         {/* <Counter /> */}
+                        <DrawerList />
                         <RouterNav />
                     </div>
                 </MuiThemeProvider>

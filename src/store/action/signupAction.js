@@ -20,7 +20,7 @@ export function signup(obj) {
                     }
                     // console.log("user with its uid",obj)
 
-                    configDefault.database().ref('/').child(`/${user.uid}`).set(obj)
+                    configDefault.database().ref('users/').child(`/${user.uid}`).set(obj)
                     dispatch(signupSucceed(obj));
                 })
 
