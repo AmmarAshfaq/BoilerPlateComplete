@@ -13,5 +13,6 @@ const ActionTypes = {
     ALLUSER:'ALLUSER',
     RECIEPENTID:'RECIEPENTID',
     MESSEGES:'MESSEGES',
+    ALLUSERDELETE:'ALLUSERDELETE'
 }
 export default ActionTypes;

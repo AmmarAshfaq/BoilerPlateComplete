@@ -23,32 +23,33 @@ export default (state = initialState, action) => {
         case ActionTypes.ALLUSER:
             // console.log(action.payload)
             var arrValue = state.allUser;
-
-            // console.log(action.payload)
+            console.log(action.payload)
             var arrObj = {
                 name: action.payload.name,
                 uid: action.payload.uid
             }
-
-            // console.log(arrObj)
+            console.log(arrObj)
             arrValue.push(arrObj);
-            // console.log(arrValue)
+            console.log(arrValue)
             return ({ ...state, allUser: arrValue })
         case ActionTypes.RECIEPENTID:
             // console.log("recipient Id:", action.payload)
             return ({ ...state, recipientID: action.payload })
         case ActionTypes.MESSEGES:
             console.log("Messeges:", action.payload)
-            var msgValue = state.messages;
-            console.log("State before change", msgValue);
-            var msgObj = {
+            var arrVal = state.messages;
+            var arrObj = {
                 message: action.payload.message,
-                receiverId: action.payload.receiverID,
-                senderId: action.payload.senderID,
+                receiverID: action.payload.receiverID,
+                senderID: action.payload.senderID
             }
-            msgValue.push(msgObj);
-            console.log(msgValue)
-            return ({ ...state, messages: msgValue })
+            arrVal.push(arrObj);
+            console.log(arrVal)
+
+
+            return ({ ...state, messages: arrVal })
+        case ActionTypes.ALLUSERDELETE:
+            return ({ ...state, allUser: action.payload })
         default:
             return state;
     }

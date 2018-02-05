@@ -8,7 +8,7 @@ export function signup(obj) {
         configDefault.auth().createUserWithEmailAndPassword(obj.email, obj.password)
             .then((user) => {
                 // console.log("user created", user);
-                browserHistory.push('/');
+                browserHistory.push('/signin');
                 return user.updateProfile({
                     displayName: obj.username
                 }).then(() => {

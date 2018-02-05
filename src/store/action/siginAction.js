@@ -8,10 +8,9 @@ export function login(loginobj) {
         // console.log(obj)
         configDefault.auth().signInWithEmailAndPassword(loginobj.email, loginobj.password)
             .then((user) => {
-                browserHistory.push('/')
-                let allUsers = {};
+                // let allUsers = {};
                 configDefault.database().ref('users/').once('value', (snap) => {
-                    allUsers = snap.val();
+                    let allUsers = snap.val();
 
                     let obj = {
                         name: user.displayName,
@@ -20,7 +19,7 @@ export function login(loginobj) {
 
                     dispatch(loginSucceed(obj));
                     let keysValue = Object.keys(allUsers);
-                    // console.log(keysValue)
+                    console.log(keysValue)
                     keysValue.map((key) => {
                         dispatch({
                             type: ActionTypes.ALLUSER,
@@ -28,11 +27,43 @@ export function login(loginobj) {
                             id: key
                         })
                     })
+                    browserHistory.push('/')
                     // dispatch(allUserData(allUsers));
 
+                    configDefault.database().ref('message/').on('child_added', snap => {
+
+                        let messages = snap.val();
+                        console.log(messages)
+
+
+
+                        dispatch({
+                            type: ActionTypes.MESSEGES,
+                            payload: messages
+                        })
+                        // let keyMsg = Object.keys(messages);
+                        // console.log(keyMsg)
+
+                        // keyMsg.map((keyVal)=>{
+                        //     dispatch({
+                        //         type:ActionTypes.MESSEGES,
+                        //         payload: messages[keyVal]
+
+                        //     })
+                        // })
+
+                        // let msgArr = [];
+                        // for (var key in messages){
+                        //     msgArr.push(messages[msgArr])
+                        // }
+                        // console.log(msgArr)
+                    })
+
+
+
+
+
                 })
-
-
             }).catch((error) => {
                 dispatch(loginError(error.message))
             })
@@ -71,23 +102,19 @@ export function recipient(recpUID) {
 export function sendMessage(message) {
     console.log(message);
     return dispatch => {
-        configDefault.database().ref('/').child(`message/${message.receiverID}/`).push(message)
+        configDefault.database().ref('/').child(`message/`).push(message)
             .then(() => {
-                let allMessages = {};
-                configDefault.database().ref('/').child(`message/${message.receiverID}/`).once("value", snap => {
-                    let allMessages = snap.val();
-                    console.log(message)
-                    let keysVal = Object.keys(allMessages);
-                    console.log(keysVal)
-                    keysVal.map((keyInd) => {
-                        dispatch({
-                            type: ActionTypes.MESSEGES,
-                            payload: allMessages[keyInd]
-
-                        })
-                    })
-                })
+                console.log("message sent");
             })
 
+    }
+}
+export function allUserDelete() {
+    return dispatch => {
+        dispatch({
+
+            type: ActionTypes.ALLUSERDELETE,
+            payload: []
+        })
     }
 }

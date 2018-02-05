@@ -33,13 +33,20 @@ class ChatBox extends Component {
             <div>
                 <textarea value={this.state.textAreaVal} onChange={this._textAreaHandler.bind(this)}></textarea>
                 <button onClick={this.sendMessage.bind(this)}>send</button>
-                {<ul> {this.props.messages.map((msg, ind) => {
-                    return <li key={ind}>
-                        <p>{msg.message}</p>
-                    </li>
+                {
 
-                })}
-                </ul>
+
+                    <ul style={{ listStyleType: 'none' }}> {this.props.messages.map((msg, ind) => {
+                        return <li key={ind}>
+                            {
+                                ((this.props.currentUser.uid == msg.senderID && this.props.recipientID == msg.receiverID) || (this.props.recipientID == msg.senderID && this.props.currentUser.uid == msg.receiverID)) ?
+                                    <p>{msg.message}</p>
+                                    : null
+                            }
+                        </li>
+
+                    })}
+                    </ul>
                 }
 
 

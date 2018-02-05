@@ -17,6 +17,8 @@ export function logoutRequestAsync() {
 
 export function logoutSucceed() {
     return {
-        type: ActionTypes.LOGOUT 
+        type: ActionTypes.LOGOUT,
     }
 }
+
+

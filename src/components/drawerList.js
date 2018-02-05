@@ -13,6 +13,7 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import { browserHistory } from 'react-router';
 import { logoutRequestAsync } from '../store/action/logoutAction';
+import { allUserDelete} from '../store/action/siginAction';
 const styles = {
     headline: {
         fontSize: 24,
@@ -39,6 +40,7 @@ class DrawerList extends Component {
     }
     signOut = () => {
         this.props.signOutUser();
+        this.props.deleteAllUser();
         this.setState({ open: false })
     }
     handleToggle = () => this.setState({ open: !this.state.open });
@@ -82,7 +84,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        signOutUser: () => dispatch(logoutRequestAsync())
+        signOutUser: () => dispatch(logoutRequestAsync()),
+        deleteAllUser:()=>dispatch(allUserDelete())
     })
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerList);
