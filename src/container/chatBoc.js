@@ -31,7 +31,9 @@ class ChatBox extends Component {
         let messageData = {
             senderID: this.props.currentUser.uid,
             receiverID: this.props.recipientID,
-            message: this.state.textAreaVal
+            message: this.state.textAreaVal,
+            seen: false,
+            currentTime: new Date().getTime() + 60000,
         }
         this.setState({ textAreaVal: "" })
         console.log(messageData, 'messageDatamessageData');
@@ -62,6 +64,16 @@ class ChatBox extends Component {
             editItem: event.target.value
         })
     }
+    calculateTimeSpace = (timeSpace) => {
+        this.clear = setInterval(() => {
+            if (timeSpace - new Date().getTime() > 0) {
+                return true;
+            }else{
+                clearInterval(this.clear);
+                return false;
+            }
+        },1000)
+    }
     render() {
         console.log(this.props.messages, 'aaaaaaaaaa')
         console.log(this.props.recipientID, this.props.currentUser.uid)
@@ -83,7 +95,7 @@ class ChatBox extends Component {
                                     ((this.props.currentUser.uid == msg.senderID && this.props.recipientID == msg.receiverID) || (this.props.recipientID == msg.senderID && this.props.currentUser.uid == msg.receiverID)) ?
                                         (this.props.currentUser.uid == msg.senderID && this.props.recipientID == msg.receiverID) ?
                                             <div >
-                                                {console.log(ind, "index", "message", msg.id)}
+                                                {console.log(ind, "index", "message", msg.id,msg.currentTime)}
                                                 {
                                                     (!this.state.editBool) ?
                                                         <div key={ind}>

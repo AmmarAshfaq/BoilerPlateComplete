@@ -42,7 +42,9 @@ export default (state = initialState, action) => {
                 id: action.payload.id,
                 message: action.payload.message,
                 receiverID: action.payload.receiverID,
-                senderID: action.payload.senderID
+                senderID: action.payload.senderID,
+                currentTime: action.payload.currentTime,
+                seen: action.payload.seen
             }
             arrVal.push(arrObj);
             console.log(arrVal)
