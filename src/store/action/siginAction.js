@@ -33,6 +33,7 @@ export function login(loginobj) {
                     configDefault.database().ref('message/').on('child_added', snap => {
 
                         let messages = snap.val();
+                        messages.id = snap.key;
                         console.log(messages)
 
 
@@ -115,6 +116,32 @@ export function allUserDelete() {
 
             type: ActionTypes.ALLUSERDELETE,
             payload: []
+        })
+    }
+}
+
+export function deleteItem(mapId, fbId) {
+    console.log(mapId, fbId)
+
+    return dispatch => {
+        configDefault.database().ref('/').child(`message/${fbId}`).remove();
+
+        configDefault.database().ref('/').child(`message/`).on('child_removed', (snap) => {
+            console.log(snap.key);
+            dispatch({ type: ActionTypes.DELETEMESSAGE, payload: snap.key })
+        })
+    }
+}
+export function editItem(mapId, fbId, item) {
+    console.log(mapId, fbId, item)
+    return dispatch => {
+        configDefault.database().ref('/').child(`message/${fbId}`).update({ message: item });
+
+        configDefault.database().ref('/').child('message/').on('child_changed', snap => {
+
+            console.log(snap.val())
+
+            dispatch({ type: ActionTypes.EDITITEM, payload: snap.val(), id: snap.key })
         })
     }
 }

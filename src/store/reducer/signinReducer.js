@@ -39,6 +39,7 @@ export default (state = initialState, action) => {
             console.log("Messeges:", action.payload)
             var arrVal = state.messages;
             var arrObj = {
+                id: action.payload.id,
                 message: action.payload.message,
                 receiverID: action.payload.receiverID,
                 senderID: action.payload.senderID
@@ -50,6 +51,33 @@ export default (state = initialState, action) => {
             return ({ ...state, messages: arrVal })
         case ActionTypes.ALLUSERDELETE:
             return ({ ...state, allUser: action.payload })
+        case ActionTypes.DELETEMESSAGE:
+            return ({
+                ...state, messages: state.messages.filter(itemVal => {
+                    return itemVal.id != action.payload
+                })
+            })
+        case ActionTypes.EDITITEM:
+            return ({
+                ...state, messages: state.messages.map((data, ind) => {
+                    if (data.id === action.id) {
+                        return {
+                            message: action.payload.message,
+                            receiverID: action.payload.receiverID,
+                            senderID: action.payload.senderID,
+                            id: data.id
+
+                        }
+                    }
+
+                    return {
+                        message: data.message,
+                        receiverID: data.receiverID,
+                        senderID: data.senderID,
+                        id: data.id
+                    }
+                })
+            })
         default:
             return state;
     }
