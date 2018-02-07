@@ -27,8 +27,8 @@ class Home extends Component {
                     {/* <DrawerList  /> */}
                 </div>
                 <div style={{ width: '25%', float: 'right' }}> {
-
                     <MobileTearSheet >
+                        <h4 style={{textAlign:'center'}}> All Users</h4>
                         <List>
                             {this.props.allUserData.map((data, index) => {
                                 return <ListItem

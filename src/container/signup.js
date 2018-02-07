@@ -4,9 +4,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import CircularProgress from 'material-ui/CircularProgress';
 import { connect } from 'react-redux';
-import { signup,signupErrorAlert } from '../store/action/signupAction';
+import { signup, signupErrorAlert } from '../store/action/signupAction';
 import { browserHistory } from 'react-router';
 import ErrorAlert from '../components/errorAlert';
+import LinearProgress from 'material-ui/LinearProgress';
 
 const styles = {
     textStyle: {
@@ -33,7 +34,18 @@ const styles = {
     },
     heading: {
         color: '#212121'
-    }
+    },
+    exampleImageInput: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+    },
+
 }
 
 class Signup extends Component {
@@ -42,13 +54,15 @@ class Signup extends Component {
         this.state = {
             email: '',
             password: '',
-            username: ''
+            username: '',
+            file: '',
         }
     }
 
     updateValue = (ev, target) => {
         let obj = {};
         obj[target] = ev.target.value;
+        console.log(obj)
         this.setState(obj);
     }
     signUp = () => {
@@ -56,8 +70,9 @@ class Signup extends Component {
             email: this.state.email,
             password: this.state.password,
             username: this.state.username,
+            file: this.state.file
         }
-
+        console.log(obj)
         this.props.signupAction(obj);
     }
     signIn = () => {
@@ -102,6 +117,15 @@ class Signup extends Component {
                                     hintText=""
                                     floatingLabelText="Password"
                                 /><br />
+                                <LinearProgress mode="determinate" value={this.state.completed} />
+                                <RaisedButton
+                                    label="Choose an Image"
+                                    labelPosition="before"
+                                    style={styles.button}
+                                    containerElement="label"
+                                >
+                                    <input type="file" value={this.state.imageID} onChange={(event) => this.updateValue(event, 'file')} />
+                                </RaisedButton>
                                 <RaisedButton onClick={this.signUp} label="Submit" primary={true} style={styles.button} />
                                 <RaisedButton onClick={this.signIn} label="Login" primary={true} style={styles.button} />
                             </Paper>
@@ -125,8 +149,8 @@ function mapDispatchToProps(dispatch) {
         signupAction: (obj) => {
             dispatch(signup(obj))
         },
-        closeAlert : () => dispatch(signupErrorAlert())
-        
+        closeAlert: () => dispatch(signupErrorAlert())
+
     })
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

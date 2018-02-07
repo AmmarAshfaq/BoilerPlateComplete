@@ -14,7 +14,7 @@ class ChatBox extends Component {
             editItem: '',
             editBool: false,
             compId: '',
-            fbInd: ''
+            fbInd: '',
 
         }
     }
@@ -33,10 +33,11 @@ class ChatBox extends Component {
             receiverID: this.props.recipientID,
             message: this.state.textAreaVal,
             seen: false,
-            currentTime: new Date().getTime() + 60000,
+            currentTime: Date.now(),
         }
         this.setState({ textAreaVal: "" })
         console.log(messageData, 'messageDatamessageData');
+        // this.calculateTimeSpace();
         this.props.sendMessage(messageData);
     }
     editItem(mapId, fbId, data) {
@@ -64,91 +65,89 @@ class ChatBox extends Component {
             editItem: event.target.value
         })
     }
-    calculateTimeSpace = (timeSpace) => {
-        this.clear = setInterval(() => {
-            if (timeSpace - new Date().getTime() > 0) {
-                return true;
-            }else{
-                clearInterval(this.clear);
-                return false;
-            }
-        },1000)
-    }
+
+
     render() {
         console.log(this.props.messages, 'aaaaaaaaaa')
         console.log(this.props.recipientID, this.props.currentUser.uid)
         return (
             <div>
                 <Card style={{ marginTop: '18px', marginLeft: '20px' }}>
-                    <CardHeader
+                    <CardTitle
                         title="Chat Box"
-                        style={{ fontSize: '42px', fontWeight: 'bold' }}
+                        style={{ fontSize: '26px', fontWeight: 'bold' }}
 
                     />
 
-                    {
+                    {/* <CardTitle 
+                     title={`chat with`}
+                    /> */}
 
 
-                        <ul style={{ listStyleType: 'none' }}> {this.props.messages.map((msg, ind) => {
-                            return <li key={ind}>
-                                {
-                                    ((this.props.currentUser.uid == msg.senderID && this.props.recipientID == msg.receiverID) || (this.props.recipientID == msg.senderID && this.props.currentUser.uid == msg.receiverID)) ?
-                                        (this.props.currentUser.uid == msg.senderID && this.props.recipientID == msg.receiverID) ?
-                                            <div >
-                                                {console.log(ind, "index", "message", msg.id,msg.currentTime)}
-                                                {
-                                                    (!this.state.editBool) ?
-                                                        <div key={ind}>
+                    {this.props.messages.map((msg, ind) => {
+                        let index = ind;
+                        {/* console.log(msg) */ }
+                        return (
+                            ((this.props.currentUser.uid == msg.senderID && this.props.recipientID == msg.receiverID) || (this.props.recipientID == msg.senderID && this.props.currentUser.uid == msg.receiverID)) ?
+                                (this.props.currentUser.uid == msg.senderID && this.props.recipientID == msg.receiverID) ?
 
-                                                            <span>
-                                                                You: {msg.message}
-                                                                <button onClick={this.deleteItem.bind(this, ind, msg.id)}>Delete</button>
-                                                                <button onClick={this.editItem.bind(this, ind, msg.id, msg.message)}>Edit</button>
+                                    (!this.state.editBool) ?
+                                        <div key={index} style={{ borderRadius: '25px', border: '2px solid #000', margin: '3px', padding: '4px' }}>
+                                            {/* {console.log(msg)} */}
+                                            You: {msg.message}
+                                            {(Date.now() - msg.currentTime < 60000) ?
+                                                <span >
+                                                    {/* {console.log(ind)} */}
 
-                                                            </span>
+                                                    <button onClick={this.deleteItem.bind(this, ind, msg.id)}>Delete</button>
+                                                    <button onClick={this.editItem.bind(this, ind, msg.id, msg.message)}>Edit</button>
 
-                                                            <br />
-                                                        </div>
-                                                        : <div key={ind}>
-                                                            <span>
-                                                                <input type="text" value={this.state.editItem} onChange={this.updateValue.bind(this)} />
-                                                                <button onClick={this.updateAction.bind(this)}>Update</button>
-                                                            </span>
-                                                        </div>
-                                                }
-                                            </div>
+                                                    <br />
+                                                </span>
 
-                                            :
-                                            <div>
-                                                {
-                                                    (!this.state.editBool) ?
-                                                        <div >
-                                                            <span style={{ float: 'right' }}>
+                                                : null}
 
-                                                                Reciever: {msg.message}
-                                                                <button onClick={this.deleteItem.bind(this, ind, msg.id)}>Delete</button>
-                                                                <button onClick={this.editItem.bind(this, ind, msg.id, msg.message)}>Edit</button>
 
-                                                            </span>
+                                        </div>
+                                        : <div key={index} style={{ borderRadius: '25px', border: '2px solid #000', margin: '3px', padding: '4px' }}>
+                                            <span>
+                                                <input type="text" value={this.state.editItem} onChange={this.updateValue.bind(this)} />
+                                                <button onClick={this.updateAction.bind(this)}>Update</button>
+                                            </span>
+                                        </div>
 
-                                                            <br />
-                                                        </div>
-                                                        :
-                                                        <div key={ind}>
-                                                            <span>
-                                                                <input type="text" value={this.state.editItem} onChange={this.updateValue.bind(this)} />
-                                                                <button onClick={this.updateAction.bind(this)}>Update</button>
-                                                            </span>
-                                                        </div>
-                                                }
-                                            </div>
-                                        : null
-                                }
-                            </li>
 
-                        })}
-                        </ul>
+                                    :
+
+                                    (!this.state.editBool) ?
+                                        <div key={index} style={{ textAlign: 'right', borderRadius: '25px', border: '2px solid #000', margin: '3px', padding: '4px' }} >
+                                            {msg.message} :Reciever
+                                            {(Date.now() - msg.currentTime < 60000) ?
+                                                <span >
+
+                                                    <button onClick={this.deleteItem.bind(this, ind, msg.id)}>Delete</button>
+                                                    <button onClick={this.editItem.bind(this, ind, msg.id, msg.message)}>Edit</button>
+
+                                                    <br />
+                                                </span>
+                                                : null}
+
+                                        </div>
+                                        :
+                                        <div key={index} style={{ borderRadius: '25px', border: '2px solid #000', margin: '3px', padding: '4px' }}>
+                                            <span>
+                                                <input type="text" value={this.state.editItem} onChange={this.updateValue.bind(this)} />
+                                                <button onClick={this.updateAction.bind(this)}>Update</button>
+                                            </span>
+                                        </div>
+
+
+                                : null
+                        )
                     }
+                    )}
+
+
                     <hr />
                     <div style={{ width: '100%', }}>
                         <div style={{ width: '90%', display: 'inline-block', marginBottom: '6px' }}>
@@ -171,7 +170,7 @@ class ChatBox extends Component {
                         </div>
                     </div>
                 </Card>
-            </div>
+            </div >
         )
     }
 }

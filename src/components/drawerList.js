@@ -52,7 +52,7 @@ class DrawerList extends Component {
         return (
             <div>
                 <AppBar
-                    title={this.props.dataUser}
+                    title="One To One Chat"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                     onLeftIconButtonClick={this.handleToggle}
                 />
@@ -62,9 +62,7 @@ class DrawerList extends Component {
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({ open })}
                 >
-                    <MenuItem onClick={this.changeURL}>Home</MenuItem>
-                    <MenuItem onClick={this.changeURL}>About</MenuItem>
-                    <MenuItem onClick={this.changeURL}>Chat</MenuItem>
+                 
                     {
                         this.state.status ?
                             <MenuItem onClick={this.signOut}>Logout</MenuItem>

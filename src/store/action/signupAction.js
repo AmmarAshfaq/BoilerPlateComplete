@@ -5,14 +5,17 @@ import { browserHistory } from 'react-router';
 export function signup(obj) {
     return dispatch => {
         dispatch(signupRequest());
+        let objValue = obj;
         configDefault.auth().createUserWithEmailAndPassword(obj.email, obj.password)
-            .then((user) => {
-                // console.log("user created", user);
+        .then((user) => {
+            // console.log("user created", user);
+            console.log(obj.file)
                 browserHistory.push('/signin');
                 return user.updateProfile({
                     displayName: obj.username
                 }).then(() => {
-                    // console.log("obj with user name",user)
+
+                   
                     let obj = {
                         name: user.displayName,
                         email: user.email,
