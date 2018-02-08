@@ -61,6 +61,8 @@ class Signup extends Component {
 
     updateValue = (ev, target) => {
         let obj = {};
+        console.log("event: ",ev);
+        console.log("target: ",target)
         obj[target] = ev.target.value;
         console.log(obj)
         this.setState(obj);
